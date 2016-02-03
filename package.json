@@ -1,0 +1,28 @@
+{
+  "name": "happyness-fruit",
+  "version": "1.0.0",
+  "description": "a webapp to sell fruit",
+  "main": "index.js",
+  "scripts": {
+    "build": "browserify --debug index.js > bundle.js",
+    "build-dist": "NODE_ENV=production browserify index.js | uglifyjs -m > bundle.min.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "browserify": "^13.0.0",
+    "react": "^0.14.7",
+    "react-dom": "^0.14.7",
+    "reactify": "^1.1.1",
+    "uglify-js": "^2.6.1",
+    "watchify": "^3.7.0"
+  },
+  "browserify": {
+    "transform": [
+      "reactify"
+    ]
+  },
+  "dependencies": {
+    "lodash": "^4.1.0"
+  }
+}

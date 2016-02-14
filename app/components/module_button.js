@@ -7,10 +7,14 @@ var ModuleButton = React.createClass({
 		onClick: React.PropTypes.func,
 	},
 	render: function(){
-		return (<button className={this.props.neededStyle} onClick={this.handleClick}>{this.props.neededContent}</button>);
+		return (<button className={this.props.neededStyle} onTouchEnd={this.handleClick}>{this.props.neededContent}</button>);
 	},
 	handleClick: function(event){
 		if (this.props.onClick) {
+			event.stopPropagation();
+			console.log(event.touches);
+			console.log(event.targetTouches);
+			console.log(event.changedTouches);
 			this.props.onClick(event);
 		};
 	}

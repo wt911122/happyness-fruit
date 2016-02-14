@@ -2,23 +2,37 @@ var React = require("react");
 var ReactDOM = require('react-dom');
 
 var ModuleButton = require("./module_button.js");
-var Cart = require("./footer/cart.js");
+var Cart = require("./cart.js");
 
 var MainFooter = React.createClass({
-
+	propTypes:{
+		toggleCover: React.PropTypes.func.isRequired
+	},
 	getInitialState: function(){
 		return {
 			amount: 0,
 			price: 0,
 			transportCost: 0,
+
+			cartBtnTransport:0
 		}
 	},
 	render: function(){
+		var cartBtnStyle = {
+			transform: "translateY("+this.state.cartBtnTransport + "px)",
+			WebkitTransform:"translateY("+this.state.cartBtnTransport + "px)",
+			msTransform:"translateY("+this.state.cartBtnTransport + "px)",
+		}
 		return (
 			<footer className="main-footer container">
-				<div className='container-fluid'>
+				<button className="cart-btn" onTouchEnd={this.toggle} style={cartBtnStyle}>{this.state.amount}</button>
+				<Cart ref="cart_panel" 
+					CartItemAmountChanged={this.CartItemAmountChanged}>
+				</Cart>
+				<div className='container-fluid beLevel'>
 					<div>
-						<Cart amount={this.state.amount}></Cart>
+						<div className="cartContainer">
+						</div>
 					</div>
 					<div className="blockfy">
 						<div>
@@ -33,16 +47,58 @@ var MainFooter = React.createClass({
 			</footer>);
 	},
 	componentDidMount: function(){
-		var header = ReactDOM.findDOMNode(this);
+		var footer = ReactDOM.findDOMNode(this);
 
-		var blockfy = header.firstChild.firstChild.nextSibling.firstChild;			
-		blockfy.style.marginTop = (header.offsetHeight - blockfy.offsetHeight) / 2 + "px";
+		var fackCart = footer.lastChild.firstChild.firstChild;	
+		fackCart.style.height = footer.offsetHeight + "px";
 
-		var button = header.firstChild.lastChild;			
-		button.style.marginTop = (header.offsetHeight - button.offsetHeight) / 2 + "px";
+		var blockfy = footer.lastChild.firstChild.nextSibling.firstChild;			
+		blockfy.style.marginTop = (footer.offsetHeight - blockfy.offsetHeight) / 2 + "px";
+
+		var button = footer.lastChild.lastChild;			
+		button.style.marginTop = (footer.offsetHeight - button.offsetHeight) / 2 + "px";
+	},
+	CartItemAmountChanged: function(newState){
+		if (newState.cartBtnTransport) {
+			newState.cartBtnTransport = this.state.cartBtnTransport + newState.cartBtnTransport;
+		};
+		this.setState(newState);
 	},
 	toSumUp: function(event){
 		console.log("toSumUp");
+	},
+	passToCart: function(paCKage){
+		console.log(paCKage.getItem());
+		var rslt = this.refs.cart_panel.unZipPackage(paCKage);
+		console.log(rslt);
+		this.setState(rslt);
+	},
+	checkItemInBasket: function(item){
+		return this.refs.cart_panel.checkItemInBasket(item);
+	},
+	toggle: function(event){
+		event.stopPropagation();
+		this.refs.cart_panel.toggle();
+		var height = -ReactDOM.findDOMNode(this.refs.cart_panel).offsetHeight;
+		console.log(height);
+		if (this.state.cartBtnTransport == 0) {
+			this.setState({
+				cartBtnTransport: height
+			});
+			console.log(typeof this.props.toggleCover);
+			this.props.toggleCover({
+				shadowZindex: 5,
+				shadowVisible: true
+			})
+		}else{
+			this.setState({
+				cartBtnTransport: 0
+			});
+			this.props.toggleCover({
+				shadowZindex: -1,
+				shadowVisible: false
+			})
+		}
 	}
 });
 

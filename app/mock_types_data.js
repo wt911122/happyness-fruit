@@ -10,6 +10,8 @@ var MockTypeData = [
 				title: "番石榴西瓜汁",
 				subTitle: "Guava Watermelon",
 				imgURL: "itemIMG/watermelon.png",
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				capacity: 400,
 				price: 19
 			},
 			{
@@ -17,6 +19,8 @@ var MockTypeData = [
 				title: "番石榴西瓜汁",
 				subTitle: "Guava Watermelon",
 				imgURL: "itemIMG/watermelon.png",
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				capacity: 400,
 				price: 19
 			},
 			{
@@ -24,6 +28,8 @@ var MockTypeData = [
 				title: "番石榴西瓜汁",
 				subTitle: "Guava Watermelon",
 				imgURL: "itemIMG/watermelon.png",
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				capacity: 400,
 				price: 19
 			},
 			{
@@ -31,6 +37,8 @@ var MockTypeData = [
 				title: "番石榴西瓜汁",
 				subTitle: "Guava Watermelon",
 				imgURL: "itemIMG/watermelon.png",
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				capacity: 400,
 				price: 19
 			},
 			{
@@ -38,6 +46,8 @@ var MockTypeData = [
 				title: "番石榴西瓜汁",
 				subTitle: "Guava Watermelon",
 				imgURL: "itemIMG/watermelon.png",
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				capacity: 400,
 				price: 19
 			},
 			{
@@ -45,6 +55,8 @@ var MockTypeData = [
 				title: "番石榴西瓜汁",
 				subTitle: "Guava Watermelon",
 				imgURL: "itemIMG/watermelon.png",
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				capacity: 400,
 				price: 19
 			},
 		]
@@ -59,42 +71,54 @@ var MockTypeData = [
 				title: "凤梨鲜橙汁",
 				subTitle: "Pinapple Orange",
 				imgURL: "itemIMG/pinapple.png",
-				price: 20
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 20,
+				capacity: 400,
 			},
 			{
 				id: 8,
 				title: "凤梨鲜橙汁",
 				subTitle: "Pinapple Orange",
 				imgURL: "itemIMG/pinapple.png",
-				price: 20
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 20,
+				capacity: 400,
 			},
 			{
 				id: 9,
 				title: "凤梨鲜橙汁",
 				subTitle: "Pinapple Orange",
 				imgURL: "itemIMG/pinapple.png",
-				price: 20
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 20,
+				capacity: 400,
 			},
 			{
 				id: 10,
 				title: "凤梨鲜橙汁",
 				subTitle: "Pinapple Orange",
 				imgURL: "itemIMG/pinapple.png",
-				price: 20
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 20,
+				capacity: 400,
 			},
 			{
 				id: 11,
 				title: "凤梨鲜橙汁",
 				subTitle: "Pinapple Orange",
 				imgURL: "itemIMG/pinapple.png",
-				price: 20
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 20,
+				capacity: 400,
 			},
 			{
 				id: 12,
 				title: "凤梨鲜橙汁",
 				subTitle: "Pinapple Orange",
 				imgURL: "itemIMG/pinapple.png",
-				price: 20
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 20,
+				capacity: 400,
 			},
 		]
 	},
@@ -108,42 +132,54 @@ var MockTypeData = [
 				title: "牛油果雪梨",
 				subTitle: "Avocado Pear",
 				imgURL: "itemIMG/pear.png",
-				price: 23
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 23,
+				capacity: 400,
 			},
 			{
 				id: 14,
 				title: "牛油果雪梨",
 				subTitle: "Avocado Pear",
 				imgURL: "itemIMG/pear.png",
-				price: 23
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 23,
+				capacity: 400,
 			},
 			{
 				id: 15,
 				title: "牛油果雪梨",
 				subTitle: "Avocado Pear",
 				imgURL: "itemIMG/pear.png",
-				price: 23
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 23,
+				capacity: 400,
 			},
 			{
 				id: 16,
 				title: "牛油果雪梨",
 				subTitle: "Avocado Pear",
 				imgURL: "itemIMG/pear.png",
-				price: 23
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 23,
+				capacity: 400,
 			},
 			{
 				id: 17,
 				title: "牛油果雪梨",
 				subTitle: "Avocado Pear",
 				imgURL: "itemIMG/pear.png",
-				price: 23
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 23,
+				capacity: 400,
 			},
 			{
 				id: 18,
 				title: "牛油果雪梨",
 				subTitle: "Avocado Pear",
 				imgURL: "itemIMG/pear.png",
-				price: 23
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 23,
+				capacity: 400,
 			},
 		]
 	},
@@ -157,42 +193,54 @@ var MockTypeData = [
 				title: "蓝莓鲜橙汁",
 				subTitle: "Blueberry Orange",
 				imgURL: "itemIMG/blueberry.png",
-				price: 28
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 28,
+				capacity: 400,
 			},
 			{
 				id: 20,
 				title: "蓝莓鲜橙汁",
 				subTitle: "Blueberry Orange",
 				imgURL: "itemIMG/blueberry.png",
-				price: 28
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 28,
+				capacity: 400,
 			},
 			{
 				id: 21,
 				title: "蓝莓鲜橙汁",
 				subTitle: "Blueberry Orange",
 				imgURL: "itemIMG/blueberry.png",
-				price: 28
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 28,
+				capacity: 400,
 			},
 			{
 				id: 22,
 				title: "蓝莓鲜橙汁",
 				subTitle: "Blueberry Orange",
 				imgURL: "itemIMG/blueberry.png",
-				price: 28
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 28,
+				capacity: 400,
 			},
 			{
 				id: 23,
 				title: "蓝莓鲜橙汁",
 				subTitle: "Blueberry Orange",
 				imgURL: "itemIMG/blueberry.png",
-				price: 28
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 28,
+				capacity: 400,
 			},
 			{
 				id: 24,
 				title: "蓝莓鲜橙汁",
 				subTitle: "Blueberry Orange",
 				imgURL: "itemIMG/blueberry.png",
-				price: 28
+				discription: "牛油果的营养价值极高，富含多种维生素和多种矿质元素。雪梨富含维生素等微量元素。两者结合有助于美容、抗衰老、同时也能降血脂。",
+				price: 28,
+				capacity: 400,
 			},
 		]
 	}

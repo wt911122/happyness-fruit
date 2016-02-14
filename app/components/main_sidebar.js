@@ -9,7 +9,8 @@ var uniqueId = require('lodash/uniqueId');
 
 var MainSidebar = React.createClass({
 	propTypes:{
-		types: React.PropTypes.array.isRequired
+		types: React.PropTypes.array.isRequired,
+		typeChanged: React.PropTypes.func
 	},
 	getInitialState: function(){
 		return {
@@ -22,14 +23,15 @@ var MainSidebar = React.createClass({
 		var timestamp = new Date();
 		var timeRemain = Math.max(0, this.props.anin)
 	},
-	componentWillUpdate: function(){
-
+	componentWillReceiveProps: function(nextProps){
+		console.log(nextProps);
 	},
 	renderItems: function(){
 		return this.props.types.map(function(type, i){
-			console.log("renderItems:"+(type.id == this.state.activeType));
-			return <ProductType
-						key={"type-"+type.id} 
+			var key = "type-"+type.id;
+			return <ProductType 
+						key={key}
+						identity={key} 
 						name={this.state.id} 
 						typeObj={type} 
 						active={type.id == this.state.activeType} 
@@ -38,7 +40,6 @@ var MainSidebar = React.createClass({
 		}.bind(this));
 	},
 	render: function(){
-
 		var navStyle = {
 			transform: "translateX("+this.state.position + "px)",
 			WebkitTransform:"translateX("+this.state.position + "px)",
@@ -51,9 +52,8 @@ var MainSidebar = React.createClass({
 				</ul>
 			</nav>);
 	},	
-	handleChanged: function(props){
-		this.forceUpdate();
-		console.log(props);
+	handleChanged: function(typeID){
+		this.props.typeChanged(typeID);
 	},
 	toggle: function(){
 		var node = ReactDOM.findDOMNode(this);

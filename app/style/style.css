@@ -65,6 +65,7 @@ body{
 .navbar-static-top{
 	position: absolute;
 	top: 0;
+	z-index: 999;
 	width: 100%;
 }
 .container-fluid:before,

@@ -73,11 +73,17 @@ var MainFooter = React.createClass({
 		console.log(rslt);
 		this.setState(rslt);
 	},
+	closeCart: function(){
+		this.refs.cart_panel.toggle();
+	},
 	checkItemInBasket: function(item){
 		return this.refs.cart_panel.checkItemInBasket(item);
 	},
 	toggle: function(event){
 		event.stopPropagation();
+		this.toggleHandler();
+	},
+	toggleHandler: function(){
 		this.refs.cart_panel.toggle();
 		var height = -ReactDOM.findDOMNode(this.refs.cart_panel).offsetHeight;
 		console.log(height);

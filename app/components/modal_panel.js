@@ -37,11 +37,10 @@ var ModalPanel = React.createClass({
 							neededContent="分享"
 							onClick={this.callSharePanel}>
 						</ModuleButton>
-						<ModuleButton
-							neededStyle="exitBtn"
-							neededContent=""
+						<button
+							className="exitBtn"
 							onClick={this.close}>
-						</ModuleButton>
+						</button>
 					</div>
 					<div className="imgBlock">
 						<img src={this.state.item.imgURL}/>

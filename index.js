@@ -51,7 +51,8 @@ var MainPage = React.createClass({
 				</MainFooter>
 				<ShadowPanel
 					zIndex={this.state.shadowZindex}
-					visible={this.state.shadowVisible}>
+					visible={this.state.shadowVisible}
+					onClick={this.shadowClick}>
 				</ShadowPanel>
 				<ModalPanel 
 					ref="modal_panel" 
@@ -119,6 +120,13 @@ var MainPage = React.createClass({
 	callShadow: function(shadowProp){
 		console.log(shadowProp);
 		this.setState(shadowProp);
+	},
+	shadowClick: function(){
+		if (this.refs.modal_panel.state.visible) this.refs.modal_panel.close();
+		if (this.refs.main_footer.refs.cart_panel.state.visible === "visible"){
+			this.refs.main_footer.toggleHandler();
+		}
+		
 	},
 	getTypeItems: function(){
 		var array = this.state.data.filter(function(type){

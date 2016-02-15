@@ -200,20 +200,23 @@ var Cart = React.createClass({
 		return obj;
 	},
 	clearAll: function(){
-		var node = ReactDOM.findDOMNode(this);
+		if (this.state.itemsInCart.length > 0) {
+			var node = ReactDOM.findDOMNode(this);
 
-		this.setState({
-			amount: 0,
-			price: 0,
-			itemsInCart: [],
-			posBottom: -node.firstChild.offsetHeight,
-		})
+			this.setState({
+				amount: 0,
+				price: 0,
+				itemsInCart: [],
+				posBottom: -node.firstChild.offsetHeight,
+			})
 
-		this.props.CartItemAmountChanged({
-			amount: 0,
-			price: 0,
-			cartBtnTransport: node.firstChild.nextSibling.offsetHeight
-		});
+			this.props.CartItemAmountChanged({
+				amount: 0,
+				price: 0,
+				cartBtnTransport: node.firstChild.nextSibling.offsetHeight
+			});
+		};
+		
 	},
 	toggle: function(){
 		console.log("toggle");

@@ -3,7 +3,8 @@ var React = require("react");
 var ShadowPanel = React.createClass({
 	propTypes: {
 		zIndex: React.PropTypes.number,
-		visible: React.PropTypes.bool
+		visible: React.PropTypes.bool,
+		onClick: React.PropTypes.func
 	},
 	getInitialState: function(){
 		return {
@@ -21,10 +22,14 @@ var ShadowPanel = React.createClass({
 			zIndex: this.state.zIndex,
 			opacity: this.state.visible ? 1: 0
 		}
-		return <div style={style} className="shadowCover"></div>;
+		return <div style={style} onClick={this.onClick} className="shadowCover"></div>;
 	},
 	callShadow: function(props){
 		this.setState(props);
+	},
+	onClick: function(event){
+		event.stopPropagation();
+		this.props.onClick();
 	}
 })
 module.exports = ShadowPanel;

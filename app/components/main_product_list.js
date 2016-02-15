@@ -1,7 +1,7 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
-var ReactIScroll = require('react-iscroll');
-var iScroll = require('iscroll');
+/*var ReactIScroll = require('react-iscroll').default,*/
+var iScroll = require('iscroll/build/iscroll-probe');
 
 var ListItem = require("./product-list/list_item.js");
 
@@ -13,14 +13,16 @@ var MainProductList = React.createClass({
 		itemUncovered: React.PropTypes.func.isRequired,
 		itemOnChanged: React.PropTypes.func.isRequired,
 	},
-	getDefaultProps: function(){
-		return {
-			options: {
-		        mouseWheel: true,
-		        scrollbars: false
-		    }
-		}
-	},
+	getDefaultProps: function() {
+    return ({
+      options: {
+        mouseWheel: true,
+        scrollbars: false,
+        click: true,
+        probeType: 1
+      }
+    })
+  },
 	getInitialState: function(){
 		return {
 			listBelong: this.props.initialType,
@@ -47,15 +49,24 @@ var MainProductList = React.createClass({
 			width: this.state.blockWidth + "px"
 		}
 		return (
-			<div className="productList" style={style}>
-			    <ReactIScroll iScroll={iScroll}
-                    options={this.props.options}
-                    onScrollEnd={this.onScrollEnd}>
-				<ul>
-					{this.renderItem()}
-				</ul>
-				</ReactIScroll>
+			<div className="productList" ref="productList" style={style}>
+					<ul>
+						{this.renderItem()}
+					</ul>
 			</div>);
+	},
+	componentDidMount: function(){
+		setTimeout(function(){
+			this.iscrollList = new iScroll(this.refs.productList, this.props.options);
+			this.iscrollList.on("scrollEnd", this.onScrollEnd);
+			this.iscrollList.on("scroll", this.onScrolled);
+		}.bind(this), 300);
+	},
+	onScrolled: function(){
+		/*var node = ReactDOM.findDOMNode(this);
+		var height = node.firstChild.firstChild.offsetHeight;*/
+		console.log("iScroll scrolling")
+		console.log();
 	},
 	itemOnChanged: function(paCKage){
 		console.log("itemOnChanged");
@@ -66,8 +77,11 @@ var MainProductList = React.createClass({
 		this.props.itemUncovered(item);
 	},
 	onScrollEnd: function(){
-		console.log("iScroll starts scrolling")
+		console.log("iScroll end scrolling")
 	},
+	onScrollStart: function() {
+    	console.log("iScroll starts scrolling")
+  	},
 	resetStates: function(width, shift){
 		this.setState({
 			blockWidth: width,
@@ -90,7 +104,11 @@ var MainProductList = React.createClass({
 				posLeft: 0,
 				blockWidth: document.documentElement.clientWidth - this.state.shiftDegree
 			});
-		}		
+		}
+		setTimeout(function(){
+			this.iscrollList.refresh();	
+		}.bind(this), 300);
+			
 	}
 });
 

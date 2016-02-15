@@ -13,13 +13,14 @@ var MainProductList = React.createClass({
 		itemUncovered: React.PropTypes.func.isRequired,
 		itemOnChanged: React.PropTypes.func.isRequired,
 	},
+	lastY: undefined,
 	getDefaultProps: function() {
 	    return ({
 	      options: {
 	        mouseWheel: true,
 	        scrollbars: false,
 	        click: true,
-	        probeType: 1
+	        probeType: 3
 	      }
 	    })
   	},
@@ -59,14 +60,14 @@ var MainProductList = React.createClass({
 		setTimeout(function(){
 			this.iscrollList = new iScroll(this.refs.productList, this.props.options);
 			this.iscrollList.on("scrollEnd", this.onScrollEnd);
-			this.iscrollList.on("scroll", this.onScrolled);
+			//this.iscrollList.on("scroll", this.onScrolled);
 		}.bind(this), 300);
 	},
 	onScrolled: function(){
 		/*var node = ReactDOM.findDOMNode(this);
 		var height = node.firstChild.firstChild.offsetHeight;*/
-		console.log("iScroll scrolling")
-		console.log();
+		
+		console.log(this.iscrollList.y);
 	},
 	itemOnChanged: function(paCKage){
 		console.log("itemOnChanged");
@@ -77,7 +78,7 @@ var MainProductList = React.createClass({
 		this.props.itemUncovered(item);
 	},
 	onScrollEnd: function(){
-		console.log("iScroll end scrolling")
+		
 	},
 	onScrollStart: function() {
     	console.log("iScroll starts scrolling")
@@ -88,10 +89,10 @@ var MainProductList = React.createClass({
 			shiftDegree: shift,
 			posLeft: 0
 		});
-		console.log(this.state);
+		//console.log(this.state);
 	},
 	toggle: function(){
-		console.log(this.state);
+		//console.log(this.state);
 		var node = ReactDOM.findDOMNode(this);
 		var shift = node.offsetWidth;
 		if (this.state.posLeft == 0) {

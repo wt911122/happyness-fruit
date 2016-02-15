@@ -17,6 +17,14 @@ var MainIconList = React.createClass({
 	      }
 	    })
   	},
+  	getInitialState: function(){
+		return {
+			listBelong: this.props.initialType,
+			posLeft: 0,
+			blockWidth: 0,
+			shiftDegree: 0
+		}
+	},
 	renderIcon: function(){
 		console.log(this.props.icons);
 		return this.props.icons.map(function(item, i){
@@ -31,8 +39,14 @@ var MainIconList = React.createClass({
 		}.bind(this));
 	},
 	render: function(){
+		var style = {
+			transform: "translateX("+this.state.posLeft + "px)",
+			WebkitTransform:"translateX("+this.state.posLeft + "px)",
+			msTransform:"translateX("+this.state.posLeft + "px)",
+			width: this.state.blockWidth + "px"
+		}
 		return (
-			<div className="main-icon-list">
+			<div className="main-icon-list" style={style}>
 				<div className="wrapper">
 					<ul>
 						{this.renderIcon()}
@@ -49,6 +63,33 @@ var MainIconList = React.createClass({
 		wrapper.style.width = this.props.icons.length * 54 + "px";
 		setTimeout(function(){
 			this.iscrollList = new iScroll(node, this.props.options);
+		}.bind(this), 300);
+	},
+	resetStates: function(width, shift){
+		this.setState({
+			blockWidth: width,
+			shiftDegree: shift,
+			posLeft: 0
+		});
+		console.log(this.state);
+	},
+	toggle: function(){
+		console.log(this.state);
+		var node = ReactDOM.findDOMNode(this);
+		var shift = node.offsetWidth;
+		if (this.state.posLeft == 0) {
+			this.setState({
+				posLeft: -this.state.shiftDegree,
+				blockWidth: document.documentElement.clientWidth
+			});
+		}else{
+			this.setState({
+				posLeft: 0,
+				blockWidth: document.documentElement.clientWidth - this.state.shiftDegree
+			});
+		}
+		setTimeout(function(){
+			this.iscrollList.refresh();	
 		}.bind(this), 300);
 	}
 });

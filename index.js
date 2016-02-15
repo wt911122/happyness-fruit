@@ -95,7 +95,7 @@ var MainPage = React.createClass({
 		MainIconListNode.style.left = MainSidebarNode.offsetWidth + "px";
 		MainIconListNode.style.top = MainHeaderNode.offsetHeight + "px";
 		MainIconListNode.style.width = document.documentElement.clientWidth - MainSidebarNode.offsetWidth + "px";
-
+		this.refs.main_icon_list.resetStates(document.documentElement.clientWidth - MainSidebarNode.offsetWidth, MainSidebarNode.offsetWidth);
 
 		//adjust product list layout
 		var MainProductListStyle = {
@@ -123,7 +123,7 @@ var MainPage = React.createClass({
 	toggleSideBar: function(){
 		this.refs.main_sidebar.toggle();
 		this.refs.main_product_list.toggle();
-		
+		this.refs.main_icon_list.toggle();
 	},
 	uncoverItem: function(item){
 		var basket = this.refs.main_footer.checkItemInBasket(item);

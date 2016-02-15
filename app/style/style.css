@@ -192,6 +192,7 @@ body{
 
 .productList{
 	position: absolute;
+	overflow: hidden;
 	transform:translateX(0);
 	-ms-transform:translateX(0); 	/* IE 9 */
 	-moz-transform:translateX(0); 	/* Firefox */

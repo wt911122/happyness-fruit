@@ -138,5 +138,7 @@ var MainPage = React.createClass({
 		return array[0].items;
 	}
 })
+ReactDOM.render(<MainPage></MainPage>, document.getElementById("container"));
 
-ReactDOM.render(<MainPage></MainPage>, document.body);
+
+

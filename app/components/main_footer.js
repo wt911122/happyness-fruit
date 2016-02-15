@@ -14,7 +14,8 @@ var MainFooter = React.createClass({
 			price: 0,
 			transportCost: 0,
 
-			cartBtnTransport:0
+			cartBtnTransport:0,
+			overflow: "hidden"
 		}
 	},
 	render: function(){
@@ -24,7 +25,7 @@ var MainFooter = React.createClass({
 			msTransform:"translateY("+this.state.cartBtnTransport + "px)",
 		}
 		return (
-			<footer className="main-footer container">
+			<footer className="main-footer container" style={{overflow: this.state.overflow}}>
 				<button className="cart-btn" onTouchEnd={this.toggle} style={cartBtnStyle}>{this.state.amount}</button>
 				<Cart ref="cart_panel" 
 					CartItemAmountChanged={this.CartItemAmountChanged}>
@@ -50,13 +51,13 @@ var MainFooter = React.createClass({
 		var footer = ReactDOM.findDOMNode(this);
 
 		var fackCart = footer.lastChild.firstChild.firstChild;	
-		fackCart.style.height = footer.offsetHeight + "px";
+		fackCart.style.height = (footer.offsetHeight-10) + "px";
 
 		var blockfy = footer.lastChild.firstChild.nextSibling.firstChild;			
-		blockfy.style.marginTop = (footer.offsetHeight - blockfy.offsetHeight) / 2 + "px";
+		blockfy.style.marginTop = ((footer.offsetHeight-10) - blockfy.offsetHeight) / 2 + "px";
 
 		var button = footer.lastChild.lastChild;			
-		button.style.marginTop = (footer.offsetHeight - button.offsetHeight) / 2 + "px";
+		button.style.marginTop = ((footer.offsetHeight-10) - button.offsetHeight) / 2 + "px";
 	},
 	CartItemAmountChanged: function(newState){
 		if (newState.cartBtnTransport) {
@@ -89,8 +90,10 @@ var MainFooter = React.createClass({
 		console.log(height);
 		if (this.state.cartBtnTransport == 0) {
 			this.setState({
-				cartBtnTransport: height
+				cartBtnTransport: height,
+				overflow: "visible"
 			});
+			
 			console.log(typeof this.props.toggleCover);
 			this.props.toggleCover({
 				shadowZindex: 5,
@@ -98,8 +101,13 @@ var MainFooter = React.createClass({
 			})
 		}else{
 			this.setState({
-				cartBtnTransport: 0
+				cartBtnTransport: 0,
 			});
+			setTimeout(function(){
+				this.setState({
+					overflow: "hidden"
+				});
+			}.bind(this), 400)
 			this.props.toggleCover({
 				shadowZindex: -1,
 				shadowVisible: false

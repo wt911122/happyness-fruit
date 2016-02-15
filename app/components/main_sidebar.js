@@ -1,5 +1,6 @@
 var React = require("react");
-var ReactDOM = require("react-dom")
+var ReactDOM = require("react-dom");
+var iScroll = require('iscroll/build/iscroll-probe');
 
 
 var ProductType = require("./nav-side/product_type.js");
@@ -12,6 +13,16 @@ var MainSidebar = React.createClass({
 		types: React.PropTypes.array.isRequired,
 		typeChanged: React.PropTypes.func
 	},
+	getDefaultProps: function() {
+	    return ({
+	      options: {
+	        mouseWheel: true,
+	        scrollbars: false,
+	        eventPassthrough: true,
+	        probeType: 1
+	      }
+	    })
+  	},
 	getInitialState: function(){
 		return {
 			id: uniqueId('multiple-type-'),
@@ -52,6 +63,11 @@ var MainSidebar = React.createClass({
 				</ul>
 			</nav>);
 	},	
+	componentDidMount: function(){
+		setTimeout(function(){
+			this.iscrollList = new iScroll(ReactDOM.findDOMNode(this), this.props.options);
+		}.bind(this), 300);
+	},
 	handleChanged: function(typeID){
 		this.props.typeChanged(typeID);
 	},

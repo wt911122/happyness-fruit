@@ -26,8 +26,7 @@ var Cart = React.createClass({
 			amount: 0,
 			price: 0,
 			itemsInCart: [],
-			posBottom: 0,
-			visible: "hidden"
+			posBottom: 0
 		}
 	},
 	renderItems: function(){
@@ -57,7 +56,7 @@ var Cart = React.createClass({
 						onClick={this.clearAll}>
 					</ModuleButton>
 				</div>
-				<div className="cart-body" style={{visible: this.state.visible}}>
+				<div className="cart-body">
 					<ul>
 						{this.renderItems()}
 					</ul>
@@ -222,14 +221,13 @@ var Cart = React.createClass({
 		console.log("toggle");
 		if (this.state.posBottom == 0) {
 			var node = ReactDOM.findDOMNode(this);
+			console.log(node.lastChild.firstChild.offsetHeight);
 			this.setState({
 				posBottom: -node.offsetHeight,
-				visible:"visible"
 			});
 		}else{
 			this.setState({
 				posBottom: 0,
-				visible:"hidden"
 			});
 		}
 

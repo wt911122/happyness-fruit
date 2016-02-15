@@ -59,6 +59,62 @@ body{
 	background-color: #e8374a;
 } 
 
+.main-header .advertise{
+	background-color: #f8f8f8;
+	background-image: url(images/amplifier.png);
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-size: 18px auto;
+	padding-left: 35px;
+	vertical-align: middle;
+	padding: 10px 15px 10px 35px;
+}
+.main-header .advertise > .content{
+	overflow: hidden;
+	float: left;
+	vertical-align: middle;
+	width: 20em;
+}
+.main-header .advertise > .content > .slider{
+	overflow: visible;
+	animation-name: slide;
+	animation-duration: 8s; 
+	animation-timing-function: linear; 
+	animation-delay: 0;
+	animation-direction: alternate;
+	animation-iteration-count: infinite;
+	animation-fill-mode: none;
+	animation-play-state: running;
+}
+@keyframes slide {
+  0%{
+	transform:translateX(50%);
+	-ms-transform:translateX(50%); 	/* IE 9 */
+	-moz-transform:translateX(50%); 	/* Firefox */
+	-webkit-transform:translateX(50%); /* Safari 和 Chrome */
+	-o-transform:translateX(50%); 	/* Opera */
+  }
+  100% {
+    transform:translateX(-100%);
+	-ms-transform:translateX(-100%); 	/* IE 9 */
+	-moz-transform:translateX(-100%); 	/* Firefox */
+	-webkit-transform:translateX(-100%); /* Safari 和 Chrome */
+	-o-transform:translateX(-100%); 	/* Opera */
+  }
+}
+.main-header .advertise > .close{
+	float: right;
+	background-image: url(images/cross.png);
+	background-repeat: no-repeat;
+	background-size: 18px;
+	background-position: center center;
+	vertical-align: middle;
+	border: none;
+	background-color: #fff;
+	height: 1.2em;
+	width: 1.2em;
+}
+
 .navbar {
 
 }
@@ -71,12 +127,15 @@ body{
 .container-fluid:before,
 .container-fluid:after,
 .productList li:before,
-.productList li:after{
+.productList li:after,
+.main-header .advertise:before,
+.main-header .advertise:after{
 	display: table;
 	content: " ";
 }
 .container-fluid:after,
-.productList li:after{
+.productList li:after,
+.main-header .advertise:after{
 	clear: both;
 }
 .container-fluid > div{
@@ -135,6 +194,12 @@ body{
 	width: 100%;
 	height: 45px;
 	z-index: 10;
+	padding-top: 10px;/* 不要更改 */ 
+	background-color: rgba(0,0,0,0);
+	transition: all 0.3s;
+	-moz-transition: all 0.3s;/* Firefox 4 */
+	-webkit-transition: all 0.3s;/* Safari 和 Chrome */
+	-o-transition:all 0.3s; /* Opera */
 }
 .footer-btn{
 	background-color: #fff;
@@ -190,6 +255,36 @@ body{
 	height: auto;
 }
 
+.main-icon-list{
+	height: 35px;
+	width: 100%;
+	overflow: hidden;
+	position: absolute;
+}
+.main-icon-list > .wrapper{
+	display: table;
+}
+.main-icon-list > .wrapper > ul {
+	display: table-row;
+}
+.main-icon-list > .wrapper > ul > li{
+	display: table-cell;
+	width: 2em;
+	vertical-align: middle;
+}
+.main-icon-list > .wrapper > ul > li > button.fruit-icon{
+	border: none;
+    border-radius: 17px;
+    font-size: 1em;
+    height: 22px;
+    padding: 0 10px;
+    line-height: 22px;
+}
+.main-icon-list > .wrapper > ul > li + li{
+	margin-left: 10px;
+}
+
+
 .productList{
 	position: absolute;
 	overflow: hidden;
@@ -238,7 +333,17 @@ body{
 .productList li.productItem > div{
 	float: left;
 }
-.productList li.productItem > .plusBtn{
+.productList li.productItem .touchArea{
+	position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    right: 0px;
+    bottom: 0px;
+    padding: 0;
+}
+.productList li.productItem .plusBtn{
 	position: absolute;
     width: 18px;
     height: 18px;
@@ -444,7 +549,7 @@ body{
 }
 .cart-btn{
 	left: 5px;
-    top: -10px;
+    top: 0px;
     position: absolute;
     width: 45px;
     height: 45px;

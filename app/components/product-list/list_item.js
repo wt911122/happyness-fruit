@@ -22,11 +22,9 @@ var ListItem = React.createClass({
 					<h2>{this.props.item.subTitle}</h2>
 					<p>￥<large>{this.props.item.price}</large></p>
 				</div>
-				<ModuleButton 
-					neededStyle="plusBtn"
-					neededContent=""
-					onClick={this.onChanged}>
-				</ModuleButton>
+				<button className="touchArea" onTouchEnd={this.onChanged} onClick={this.handleClick}>
+					<div className="plusBtn"></div>
+				</button>
 			</li>)
 	},
 	onChanged: function(event){
@@ -44,6 +42,10 @@ var ListItem = React.createClass({
 		event.preventDefault();
 		console.log("uncovered");
 		this.callMethodOnProps('uncovered', this.props.item);
+	},
+	handleClick: function(event){
+		event.stopPropagation();
+
 	}
 });
 module.exports = ListItem;

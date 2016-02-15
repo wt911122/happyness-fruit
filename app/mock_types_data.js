@@ -244,5 +244,6 @@ var MockTypeData = [
 			},
 		]
 	}
+
 ]
 module.exports = MockTypeData;

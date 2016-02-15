@@ -3,14 +3,21 @@ var ReactDOM = require('react-dom');
 
 var ModuleButton = require("./module_button.js");
 var Searcher = require("./header/search.js");
+var SlideAd = require("./header/slide_ad.js");
 
 var MainHeader = React.createClass({
 	propTypes: {
-		leftBtnClickHandler: React.PropTypes.func.isRequired
+		leftBtnClickHandler: React.PropTypes.func.isRequired,
+		layoutChanged: React.PropTypes.func,
+		ad: React.PropTypes.string
 	},
 	render: function(){
 		return (
 			<header className="main-header navbar navbar-static-top container">
+				<SlideAd
+					content={this.props.ad}
+					onClose={this.layoutChanged}>
+				</SlideAd>
 				<div className='container-fluid'>
 					<div>
 						<ModuleButton neededStyle="btn bar-btn toSideBtn" neededContent="分类" onClick={this.callForSideBar}></ModuleButton>
@@ -25,10 +32,13 @@ var MainHeader = React.createClass({
 			</header>);
 	},
 	componentDidMount: function(){
+		this.refreshLayout();
+	},
+	refreshLayout:function(){
 		var header = ReactDOM.findDOMNode(this);
-
-		var SearcherNode = header.firstChild.firstChild.nextSibling.firstChild;			
-		SearcherNode.style.marginTop = (header.offsetHeight - SearcherNode.offsetHeight) / 2 + "px";
+		var container = header.lastChild;
+		var SearcherNode = header.lastChild.firstChild.nextSibling.firstChild;			
+		SearcherNode.style.marginTop = (container.offsetHeight - SearcherNode.offsetHeight) / 2 + "px";
 	},
 	callForSideBar: function(event){
 		console.log("toggle");
@@ -37,6 +47,9 @@ var MainHeader = React.createClass({
 	},
 	toHome: function(event){
 		console.log("toHome");
+	},
+	layoutChanged: function(){
+		this.props.layoutChanged();
 	}
 });
 

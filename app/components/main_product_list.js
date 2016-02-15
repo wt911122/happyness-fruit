@@ -14,15 +14,15 @@ var MainProductList = React.createClass({
 		itemOnChanged: React.PropTypes.func.isRequired,
 	},
 	getDefaultProps: function() {
-    return ({
-      options: {
-        mouseWheel: true,
-        scrollbars: false,
-        click: true,
-        probeType: 1
-      }
-    })
-  },
+	    return ({
+	      options: {
+	        mouseWheel: true,
+	        scrollbars: false,
+	        click: true,
+	        probeType: 1
+	      }
+	    })
+  	},
 	getInitialState: function(){
 		return {
 			listBelong: this.props.initialType,

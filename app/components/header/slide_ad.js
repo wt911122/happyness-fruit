@@ -15,17 +15,18 @@ var SlideAd = React.createClass({
 				<div ref="ad_content" className="content">
 					<div className="slider">{this.props.content}</div>
 				</div>
-				<ModuleButton
-					neededStyle="close"
-					neededContent=""
-					onClick={this.close}
-				></ModuleButton>
+				<button className="touchArea" onTouchEnd={this.close} onClick={this.handleClick}>
+					<div className="close"></div>
+				</button>
 			</div>);
 	},	
 	close: function(){
 		var node = ReactDOM.findDOMNode(this);
 		node.style.display = "none";
 		this.props.onClose();
+	},
+	handleClick: function(event){
+		event.stopPropagation();
 	}
 });
 

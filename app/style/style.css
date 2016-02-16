@@ -68,6 +68,7 @@ body{
 	padding-left: 35px;
 	vertical-align: middle;
 	padding: 10px 15px 10px 35px;
+	position: relative;
 }
 .main-header .advertise > .content{
 	overflow: hidden;
@@ -102,17 +103,29 @@ body{
 	-o-transform:translateX(-100%); 	/* Opera */
   }
 }
-.main-header .advertise > .close{
+.main-header .advertise > .touchArea{
+	width: 35px;
+	height: 100%;
+	position: absolute;
+	background-color: transparent;
+    border: none;
+    display: block;
+    right: 0;
+    top: 0;
+}
+.main-header .advertise > .touchArea > .close{
 	float: right;
 	background-image: url(images/cross.png);
 	background-repeat: no-repeat;
-	background-size: 18px;
+	background-size: 12px;
 	background-position: center center;
 	vertical-align: middle;
-	border: none;
 	background-color: #fff;
 	height: 1.2em;
 	width: 1.2em;
+	border: 1px solid #efefef;
+	border-radius: 100%;
+	padding: 5px;
 }
 
 .navbar {
@@ -121,7 +134,7 @@ body{
 .navbar-static-top{
 	position: absolute;
 	top: 0;
-	z-index: 999;
+	z-index: 4;
 	width: 100%;
 }
 .container-fluid:before,
@@ -188,6 +201,11 @@ body{
 		width: 12em;
 	}
 }
+@media screen and (max-device-width: 240px){
+	.navbar input.searcher{
+		width: 4em;
+	}
+}
 .main-footer{
 	position: absolute;
 	bottom: 0;
@@ -228,6 +246,7 @@ body{
 .sideNAV{
 	position: absolute;
 	width: 105px;
+	overflow: hidden;
 	transform:translateX(0);
 	-ms-transform:translateX(0); 	/* IE 9 */
 	-moz-transform:translateX(0); 	/* Firefox */

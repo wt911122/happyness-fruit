@@ -19,12 +19,22 @@ var ProductType = React.createClass({
 	       checked: this.props.active
 	    };
 	},
-	componentWillUpdate: function(){
+	componentWillReceiveProps: function(nextProps){
+		//console.log("ProductType");
+		
+		if (nextProps.active !== this.state.checked) {
+			console.log(this.props.identity);
+			this.setState({
+				checked: nextProps.active
+			});		
+		};
+	},
+	/*componentWillUpdate: function(){
 		var node = ReactDOM.findDOMNode(this);
 		this.state.checked = node.firstChild.lastChild.checked;
-	},
+	},*/
 	render: function(){
-		console.log(this.props.identity);
+		
 		return(
 			<li className={this.state.checked ? "active":""}>
 				<label htmlFor={this.props.identity}>

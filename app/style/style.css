@@ -649,8 +649,15 @@ body{
 }
 .cart-panel > .cart-body > ul > li.cartItem > .item-counter{
 	float: right;
+	margin: -8px;
 }
-.cart-panel > .cart-body > ul > li.cartItem > .item-counter > .counterBtn{
+.cart-panel > .cart-body > ul > li.cartItem > .item-counter > .btn-wrapper{
+	vertical-align: middle;
+	border:none;
+	background:transparent;
+	padding: 8px;
+}
+.cart-panel > .cart-body > ul > li.cartItem > .item-counter > .btn-wrapper > .counterBtn{
 	width: 18px;
     height: 18px;
     border-radius: 100%;
@@ -663,18 +670,18 @@ body{
     background-repeat: no-repeat;
     vertical-align: middle;
 }
-.cart-panel > .cart-body > ul > li.cartItem > .item-counter > .counterBtn.minus{
+.cart-panel > .cart-body > ul > li.cartItem > .item-counter > .btn-wrapper > .counterBtn.minus{
 	color: #e8374a;
 	background-color: #fff;
 	background-image: url(./images/minus.png);
 }
 
-.cart-panel > .cart-body > ul > li.cartItem > .item-counter > .counterBtn.plus{
+.cart-panel > .cart-body > ul > li.cartItem > .item-counter > .btn-wrapper > .counterBtn.plus{
 	background-color: #e8374a;
 	color: #fff;
 	background-image: url(./images/plus.png);
 }
-.cart-panel > .cart-body > ul > li.cartItem > .item-counter > .textBetween{
+.cart-panel > .cart-body > ul > li.cartItem > .item-counter > .btn-wrapper > .textBetween{
 	display: inline-block;
     width: 18px;
     height: 18px;

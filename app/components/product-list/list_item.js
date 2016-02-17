@@ -12,11 +12,25 @@ var ListItem = React.createClass({
 		item: React.PropTypes.object,
 		onChanged: React.PropTypes.func.isRequired,
 		uncovered: React.PropTypes.func.isRequired,
+		activeIMG: React.PropTypes.bool,
+	},
+	getInitialState: function() {
+		return {
+			activeIMG: this.props.activeIMG
+		}
+	},
+	componentWillReceiveProps: function(nextProps){
+		if (this.state.activeIMG !== nextProps.activeIMG) {
+			this.setState({
+				activeIMG: nextProps.activeIMG
+			})
+		};	
 	},
 	render: function(){
+		var src = this.state.activeIMG ? this.props.item.imgURL : "app/style/images/Loading.png"; 
 		return (
 			<li className="productItem" onClick={this.uncovered}>
-				<div className="imgBlock"><img className="reactImg" src={this.props.item.imgURL}/></div>
+				<div className="imgBlock"><img className="reactImg" src={src} /></div>
 				<div className="description">
 					<h1>{this.props.item.title}</h1>
 					<h2>{this.props.item.subTitle}</h2>
@@ -45,7 +59,6 @@ var ListItem = React.createClass({
 	},
 	handleClick: function(event){
 		event.stopPropagation();
-
 	}
 });
 module.exports = ListItem;

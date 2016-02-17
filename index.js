@@ -24,7 +24,7 @@ var MainPage = React.createClass({
 			iconTypes: IconType,
 			activeType: 1,
 			shadowZindex: -1,
-			shadowVisible: false
+			shadowVisible: false,
 		}
 	},	
 	render: function(){
@@ -40,7 +40,8 @@ var MainPage = React.createClass({
 					<MainSidebar 
 						ref="main_sidebar"
 						types={this.state.data}
-						typeChanged={this.typeChanged}>
+						typeChanged={this.changeListType}
+						activeType={this.state.activeType}>
 					</MainSidebar>
 				</div>
 				<div>
@@ -50,10 +51,10 @@ var MainPage = React.createClass({
 					</MainIconList>
 					<MainProductList 
 						ref="main_product_list"
-						initialType={this.state.activeType}
-						productsData={this.getTypeItems()}
+						productsData={this.state.data}
 						itemUncovered={this.uncoverItem}
-						itemOnChanged={this.changeCartItem}>
+						itemOnChanged={this.changeCartItem}
+						alertTypeChange={this.typeChanged}>
 					</MainProductList>
 				</div>
 				<MainFooter 
@@ -119,6 +120,12 @@ var MainPage = React.createClass({
 		this.setState({
 			activeType: type
 		});
+	},
+	changeListType: function(type){
+		this.setState({
+			activeType: type
+		});
+		this.refs.main_product_list.changeListType(type);
 	},
 	toggleSideBar: function(){
 		this.refs.main_sidebar.toggle();

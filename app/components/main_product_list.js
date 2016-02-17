@@ -1,5 +1,6 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
+var CloneDeep = require("lodash/cloneDeep");
 /*var ReactIScroll = require('react-iscroll').default,*/
 var iScroll = require('iscroll/build/iscroll-probe');
 
@@ -9,37 +10,69 @@ var ListItem = require("./product-list/list_item.js");
 var MainProductList = React.createClass({
 	propTypes: {
 		productsData: React.PropTypes.array,
-		initialType: React.PropTypes.number,
 		itemUncovered: React.PropTypes.func.isRequired,
 		itemOnChanged: React.PropTypes.func.isRequired,
+		alertTypeChange: React.PropTypes.func.isRequired
 	},
-	lastY: undefined,
+	changePoints: [],
+	itemHeight: 0,
+	historyPoint: {},
+	allowListener: true,
 	getDefaultProps: function() {
 	    return ({
 	      options: {
 	        mouseWheel: true,
 	        scrollbars: false,
 	        click: true,
-	        probeType: 3
+	        probeType: 3,
+	        
 	      }
 	    })
   	},
 	getInitialState: function(){
 		return {
-			listBelong: this.props.initialType,
+			alowChange: this.props.initialPermission,
 			posLeft: 0,
 			blockWidth: 0,
-			shiftDegree: 0
+			shiftDegree: 0,
+			activeIMGArray: []
 		}
 	},
+	componentWillReceiveProps: function(nextProps){
+		/*console.log("MainProductList");
+		console.log(nextProps);
+		if (nextProps.initialType !== this.state.listBelong) {
+			//console.log(this.scanPointsPos(nextProps.initialType) * this.itemHeight);
+			//this.iscrollList.goToPage(0, this.scanPointsPos(nextProps.initialType), 0);
+			this.setState({
+				listBelong: nextProps.initialType
+			})
+		};*/
+	},
 	renderItem: function(){
-		return this.props.productsData.map(function(item, i){
-			return <ListItem 
+		return this.props.productsData.map(function(type, i){
+			var length = type.items.length;
+			return type.items.map(function(item, j){
+				if (j == 0) {
+					this.changePoints.push({
+						id: i*length + j,
+						type: type.id
+					});
+				};
+				if (j == length-1) {
+					this.changePoints.push({
+						id: i*length + j,
+						type: type.id
+					});
+				};
+				return <ListItem 
 						key={"item-"+item.id}
 						item={item}
 						onChanged={this.itemOnChanged}
-						uncovered={this.itemUncovered}>
+						uncovered={this.itemUncovered}
+						activeIMG={!!this.state.activeIMGArray[i*length + j]}>
 					</ListItem>
+			}.bind(this));
 		}.bind(this))
 	},
 	render: function(){
@@ -56,18 +89,61 @@ var MainProductList = React.createClass({
 					</ul>
 			</div>);
 	},
+	componentDidUpdate: function(){
+		setTimeout(function(){
+			var node = ReactDOM.findDOMNode(this);
+			var height = node.firstChild.firstChild.offsetHeight;
+			console.log("item height: " + height)
+			this.itemHeight = height;
+		}.bind(this), 250);
+	},
 	componentDidMount: function(){
 		setTimeout(function(){
 			this.iscrollList = new iScroll(this.refs.productList, this.props.options);
 			this.iscrollList.on("scrollEnd", this.onScrollEnd);
-			//this.iscrollList.on("scroll", this.onScrolled);
+			this.iscrollList.on("scroll", this.onScrolled);
+			this.visibleArea = ReactDOM.findDOMNode(this).offsetHeight;
+			this.onScrollEnd();
 		}.bind(this), 300);
+	},
+	changeListType: function(type){
+		console.log("changeListType");
+		console.log(type);
+		this.allowListener = false;
+		this.iscrollList.scrollTo(0, -this.scanPointsPos(type) * this.itemHeight, 200, iScroll.utils.ease.quadratic);
+		setTimeout(function(){
+			this.allowListener = true;
+		}.bind(this), 250);	
 	},
 	onScrolled: function(){
 		/*var node = ReactDOM.findDOMNode(this);
 		var height = node.firstChild.firstChild.offsetHeight;*/
+		//console.log(Math.floor(-this.iscrollList.y / this.itemHeight));
+		if(this.allowListener){
+			var idx = Math.floor(-this.iscrollList.y / this.itemHeight)
+			//console.log(idx)
+			var point = this.scanPoints(idx);
+
+			if (this.historyPoint && point && this.historyPoint !== point) {
+				console.log(point);
+				this.props.alertTypeChange(point.type);
+				this.historyPoint = point;
+			};
+			if (!this.historyPoint) {this.historyPoint = point;};	
+		}
 		
-		console.log(this.iscrollList.y);
+		
+		//console.log(this.iscrollList.y);
+	},
+	scanPoints: function(idx){
+		return this.changePoints.filter(function(item){
+			return (item.id == idx);
+		})[0]
+	},
+	scanPointsPos: function(typeID){
+		return this.changePoints.filter(function(item){
+			return (item.type == typeID);
+		})[0].id;
 	},
 	itemOnChanged: function(paCKage){
 		console.log("itemOnChanged");
@@ -78,7 +154,20 @@ var MainProductList = React.createClass({
 		this.props.itemUncovered(item);
 	},
 	onScrollEnd: function(){
-		
+		console.log("scroll end");
+		console.log(this.visibleArea );
+		var idx = Math.floor(-this.iscrollList.y / this.itemHeight);
+		console.log(idx);
+		var idxEnd = Math.floor(-(this.iscrollList.y - this.visibleArea) / this.itemHeight);
+		console.log(idxEnd);
+		var activeIMGArrayCopy = CloneDeep(this.state.activeIMGArray);
+		while(idx != idxEnd){
+			activeIMGArrayCopy[idx] = true;
+			idx ++;
+		}
+		this.setState({
+			activeIMGArray: activeIMGArrayCopy
+		})
 	},
 	onScrollStart: function() {
     	console.log("iScroll starts scrolling")

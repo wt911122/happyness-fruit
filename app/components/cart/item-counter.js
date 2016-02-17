@@ -26,9 +26,13 @@ var ItemCounter = React.createClass({
 		console.log("renderCartItemCounter");
 		return (
 			<div className="item-counter">
-				<ModuleButton onClick={this.doMinus} neededStyle="counterBtn minus" neededContent=""></ModuleButton>
+				<button className="btn-wrapper" onTouchEnd={this.doMinus} onClick={this.handleClick}>
+					<div className="counterBtn minus"></div>
+				</button>
 				<span className="textBetween">{this.state.amount}</span>
-				<ModuleButton onClick={this.doAdd} neededStyle="counterBtn plus" neededContent=""></ModuleButton>
+				<button className="btn-wrapper" onTouchEnd={this.doAdd} onClick={this.handleClick}>
+					<div className="counterBtn plus"></div>
+				</button>
 			</div>)
 	},
 	doMinus: function(event){
@@ -38,6 +42,9 @@ var ItemCounter = React.createClass({
 	doAdd: function(event){
 		event.preventDefault();
 		this.props.amountChanged(1);
+	},
+	handleClick: function(event){
+		event.stopPropagation();
 	}
 
 });

@@ -11,7 +11,8 @@ var uniqueId = require('lodash/uniqueId');
 var MainSidebar = React.createClass({
 	propTypes:{
 		types: React.PropTypes.array.isRequired,
-		typeChanged: React.PropTypes.func
+		typeChanged: React.PropTypes.func,
+		activeType: React.PropTypes.number
 	},
 	getDefaultProps: function() {
 	    return ({
@@ -26,7 +27,7 @@ var MainSidebar = React.createClass({
 	getInitialState: function(){
 		return {
 			id: uniqueId('multiple-type-'),
-			activeType: 1,
+			activeType: this.props.activeType,
 			position: 0
 		}
 	},
@@ -35,7 +36,13 @@ var MainSidebar = React.createClass({
 		var timeRemain = Math.max(0, this.props.anin)
 	},
 	componentWillReceiveProps: function(nextProps){
+		console.log("MainSidebar");
 		console.log(nextProps);
+		if (nextProps.activeType !== this.state.activeType) {
+			this.setState({
+				activeType: nextProps.activeType
+			})
+		};
 	},
 	renderItems: function(){
 		return this.props.types.map(function(type, i){

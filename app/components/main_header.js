@@ -37,8 +37,16 @@ var MainHeader = React.createClass({
 	refreshLayout:function(){
 		var header = ReactDOM.findDOMNode(this);
 		var container = header.lastChild;
-		var SearcherNode = header.lastChild.firstChild.nextSibling.firstChild;			
-		SearcherNode.style.marginTop = (container.offsetHeight - SearcherNode.offsetHeight) / 2 + "px";
+		var SearcherNode = header.lastChild.firstChild.nextSibling.firstChild;	
+		var leftButton = header.lastChild.firstChild;	
+		var rightButton = header.lastChild.lastChild;	
+		var topMargin = (container.offsetHeight - SearcherNode.offsetHeight) / 2		
+		SearcherNode.style.marginTop =  (topMargin >  12 ? 10 : topMargin) + "px";
+		var width = container.offsetWidth - leftButton.offsetWidth - rightButton.offsetWidth;
+		console.log(width);
+		console.log(leftButton.offsetWidth);
+		console.log(rightButton.offsetWidth);
+		SearcherNode.style.width = (width > 188 ? 188 : width) + "px";
 	},
 	callForSideBar: function(event){
 		console.log("toggle");

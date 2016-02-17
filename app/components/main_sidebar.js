@@ -3,7 +3,7 @@ var ReactDOM = require("react-dom");
 var iScroll = require('iscroll/build/iscroll-probe');
 
 
-var ProductType = require("./nav-side/product_type.js");
+var ProductType = require("./nav-side/product_type_v2.js");
 
 var uniqueId = require('lodash/uniqueId');
 
@@ -30,10 +30,6 @@ var MainSidebar = React.createClass({
 			activeType: this.props.activeType,
 			position: 0
 		}
-	},
-	resolveAnimationFrame: function(){
-		var timestamp = new Date();
-		var timeRemain = Math.max(0, this.props.anin)
 	},
 	componentWillReceiveProps: function(nextProps){
 		console.log("MainSidebar");

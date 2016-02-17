@@ -18,6 +18,7 @@ var MainProductList = React.createClass({
 	itemHeight: 0,
 	historyPoint: {},
 	allowListener: true,
+	count: 0,
 	getDefaultProps: function() {
 	    return ({
 	      options: {
@@ -35,7 +36,7 @@ var MainProductList = React.createClass({
 			posLeft: 0,
 			blockWidth: 0,
 			shiftDegree: 0,
-			activeIMGArray: []
+			activeIMGArray: [true, true, true, true]
 		}
 	},
 	componentWillReceiveProps: function(nextProps){
@@ -103,7 +104,6 @@ var MainProductList = React.createClass({
 			this.iscrollList.on("scrollEnd", this.onScrollEnd);
 			this.iscrollList.on("scroll", this.onScrolled);
 			this.visibleArea = ReactDOM.findDOMNode(this).offsetHeight;
-			this.onScrollEnd();
 		}.bind(this), 300);
 	},
 	changeListType: function(type){
@@ -119,7 +119,7 @@ var MainProductList = React.createClass({
 		/*var node = ReactDOM.findDOMNode(this);
 		var height = node.firstChild.firstChild.offsetHeight;*/
 		//console.log(Math.floor(-this.iscrollList.y / this.itemHeight));
-		if(this.allowListener){
+		if(this.allowListener && this.count % 5 ==0){
 			var idx = Math.floor(-this.iscrollList.y / this.itemHeight)
 			//console.log(idx)
 			var point = this.scanPoints(idx);
@@ -130,9 +130,10 @@ var MainProductList = React.createClass({
 				this.historyPoint = point;
 			};
 			if (!this.historyPoint) {this.historyPoint = point;};	
+			this.count = 0;
 		}
 		
-		
+		this.count ++;
 		//console.log(this.iscrollList.y);
 	},
 	scanPoints: function(idx){
@@ -154,8 +155,6 @@ var MainProductList = React.createClass({
 		this.props.itemUncovered(item);
 	},
 	onScrollEnd: function(){
-		console.log("scroll end");
-		console.log(this.visibleArea );
 		var idx = Math.floor(-this.iscrollList.y / this.itemHeight);
 		console.log(idx);
 		var idxEnd = Math.floor(-(this.iscrollList.y - this.visibleArea) / this.itemHeight);

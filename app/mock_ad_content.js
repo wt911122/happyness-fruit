@@ -1,2 +1,1 @@
-var ADcontent = "xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx";
-module.exports = ADcontent;
+"正月初一到初七我们过节休息，亲们节日快乐咯。。。"

@@ -4,8 +4,8 @@
   "description": "a webapp to sell fruit",
   "main": "index.js",
   "scripts": {
-    "build": "browserify --debug index.js > bundle.js",
-    "build-dist": "NODE_ENV=production browserify index.js | uglifyjs -m > bundle.min.js"
+    "build": "browserify --debug index_v2.js > bundle.js",
+    "build-dist": "NODE_ENV=production browserify index_v2.js | uglifyjs -m > bundle.min.js"
   },
   "author": "",
   "license": "ISC",

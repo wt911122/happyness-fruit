@@ -14,7 +14,12 @@ Dispatcher.prototype.register = function(callback) {
 
 Dispatcher.prototype.dispatch = function(payload) {
   if (this.isDispatching) {
-    throw new Error("Cannot dispatch in the middle of a dispatch!");
+   // throw new Error("Cannot dispatch in the middle of a dispatch!");
+   //延迟触发
+    setTimeout(function(){
+      this.dispatch(payload);
+    }.bind(this), 50);
+    return
   }
 
   // Initialize states to begin the dispatch

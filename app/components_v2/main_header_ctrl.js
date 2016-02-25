@@ -13,9 +13,11 @@ var MainHeaderCtrl = React.createClass({
 	},
 
 	handleADReady: function(data) {
-		this.setState({
-			advertise: data
-		})
+		if (data !== "") {
+			this.setState({
+				advertise: data
+			});
+		};
 	},
 
 	componentDidMount: function() {
@@ -29,7 +31,7 @@ var MainHeaderCtrl = React.createClass({
 		console.log("advertise altered");
 		ShopActions.alterAD({
 			state: state
-		})
+		});
 	},
 	render: function(){
 		return <MainHeader 

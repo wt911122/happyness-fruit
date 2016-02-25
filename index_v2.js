@@ -2,6 +2,10 @@ var React = require("react");
 var ReactDOM = require('react-dom');
 
 var MainHeaderCtrl = require("./app/components_v2/main_header_ctrl.js");
+var MainContentCtrl = require("./app/components_v2/main_content_ctrl.js");
+var MainFooterCtrl = require("./app/components_v2/main_footer_ctrl.js");
+var MainModalCtrl = require("./app/components_v2/main_modal_ctrl.js");
+var MainShadow = require("./app/components_v2/main_shadow.js")
 
 var Dispatcher = require("./app/flux/Dispatcher.js");
 var ShopStore = require("./app/flux/ShopStore.js");
@@ -15,9 +19,32 @@ Dispatcher.register(function(payload){
 		case ShopConstants.REQUST_AD:
 			ShopStore.requestAD(payload.req);
 			break;
-
+		case ShopConstants.REQUST_DATA: 
+			ShopStore.requstData(payload.req);
+			break;
+		case ShopConstants.TOGGLE_SIDEBAR: 
+			ShopStore.toggleSideBar();
+			break;
+		case ShopConstants.GO_CHECK_CART:
+			ShopStore.checkCart(payload.item);
+			break;
+		case ShopConstants.CALL_FOR_MODAL:
+			ShopStore.callModall(payload.cartItem);
+			break;
+		case ShopConstants.CALL_FOR_SHADOW: 
+			ShopStore.callShadow(payload.props);
+			break;
+		case ShopConstants.ALTER_CART_ITEM:
+			ShopStore.alterCartItem(payload.operations);
+			break;
+		case ShopConstants.CLOSE_SHADOW: 
+			ShopStore.closeShadow();
+			break;
+		case ShopConstants.SHADOW_ON_CLOSE: 
+			ShopStore.shadowOnClose();
+			break;
 	}
-})
+});
 
 var MainPage = React.createClass({
 	getInitialState: function(){
@@ -29,6 +56,10 @@ var MainPage = React.createClass({
 		return (
 			<div>
 				<MainHeaderCtrl />
+				<MainContentCtrl />
+				<MainFooterCtrl />
+				<MainModalCtrl />
+				<MainShadow />
 			</div>
 		);
 	},

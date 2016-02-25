@@ -39,6 +39,9 @@ var MainHeader = React.createClass({
         		</div>
 			</header>);
 	},
+	/*shouldComponentUpdate: function(){
+		return 
+	},*/
 	componentDidUpdate: function(){
 		if (this.state.showAD) {
 			ReactDOM.findDOMNode(this).classList.add("active");
@@ -55,7 +58,8 @@ var MainHeader = React.createClass({
 	},
 	callForSideBar: function(event){
 		event.preventDefault();
-		console.log("call sideBar")
+		console.log("callForSideBar");
+		ShopActions.toggleSideBar();
 	},
 	toHome: function(event){
 		console.log("toHome");
@@ -64,6 +68,7 @@ var MainHeader = React.createClass({
 		this.setState({
 			showAD: false
 		});
+		ShopActions.alterAD(false);
 	}
 });
 

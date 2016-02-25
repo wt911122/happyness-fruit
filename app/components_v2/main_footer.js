@@ -1,118 +1,116 @@
 var React = require("react");
-var ReactDOM = require('react-dom');
+var ReactDOM = require("react-dom");
 
+var ShopActions = require("../flux/ShopActions.js");
 var ModuleButton = require("./module_button.js");
-var Cart = require("./cart.js");
+var CartItem = require("./cart_item.js");
 
 var MainFooter = React.createClass({
 	propTypes:{
-		toggleCover: React.PropTypes.func.isRequired
+		counter: React.PropTypes.number,
+		cost: React.PropTypes.number,
+		cart: React.PropTypes.object,
+		CartTranslateY: React.PropTypes.number
 	},
+	getDefaultProps: function() {
+	    return ({
+			options: {
+				mouseWheel: true,
+				scrollbars: false,
+				eventPassthrough: true,
+			},
+	    })
+  	},
 	getInitialState: function(){
 		return {
-			amount: 0,
-			price: 0,
-			transportCost: 0,
-
-			cartBtnTransport:0,
-			overflow: "hidden"
+			counter: this.props.counter,
+			cost: this.props.cost,
+			cart: this.props.cart,
+			CartTranslateY: this.props.CartTranslateY,
 		}
+	},
+	/*shoudComponentUpdate: function(nextProps, nextState){
+		if (nextState.CartTranslateY !== this.state.CartTranslateY) {
+			this.setState({
+				CartTranslateY: nextState.CartTranslateY
+			})
+		};
+	},*/
+	componentWillReceiveProps: function(nextProps){
+		
+		if (nextProps.counter !== this.state.counter) {
+			this.setState(nextProps);
+		}else if(nextProps.CartTranslateY !== this.state.CartTranslateY){
+			this.setState({
+				CartTranslateY: nextProps.CartTranslateY
+			})
+		}
+	},
+	renderCartLayer: function(){
+		return (<div ref="cart" className="layer Lst cart-panel" style={this.animationStyle}>
+					<div className="cart-head">
+
+					</div>
+					<div className="cart-body">
+						<ul>
+							{this.renderCartBody()}
+						</ul>
+					</div>
+				</div>);
+	},
+	renderCartBody: function(){
+		return this.state.cart.map(function(CItem, idx){
+			return <CartItem 
+					key={idx}
+					itemStack={CItem}
+					amountOnChanged={this.amountOnChanged}/>
+		}.bind(this));
+	},
+	renderFooterInfoLayer: function(){
+		return (<div className="layer Lnd">
+					<div className="briefTip">
+						<div>￥<large>{this.state.cost}</large></div>
+						<div>运费：{this.state.transportCost}&nbsp;&nbsp;两杯起送</div>
+					</div>
+					<div className="goCheck">
+						<ModuleButton 
+							outterStyle="footer-btn" 
+							innerStyle="" 
+							innerContent="去结算" />
+					</div>
+				</div>);
+	},	
+	renderCartIconLayer: function(){
+		return (<div className="layer Trd" style={this.animationStyle}>
+					<ModuleButton 
+						outterStyle="cart-btn" 
+						innerStyle="" 
+						innerContent={this.state.counter+""}
+						onClick={this.toggle}/>
+				</div>);
 	},
 	render: function(){
-		var cartBtnStyle = {
-			transform: "translateY("+this.state.cartBtnTransport + "px)",
-			WebkitTransform:"translateY("+this.state.cartBtnTransport + "px)",
-			msTransform:"translateY("+this.state.cartBtnTransport + "px)",
+		this.animationStyle = {
+			transform: "translateY("+this.state.CartTranslateY + "px)",
+			WebkitTransform:"translateY("+this.state.CartTranslateY + "px)",
 		}
+		console.log(this.state.CartTranslateY);
 		return (
-			<footer className="main-footer container" style={{overflow: this.state.overflow}}>
-				<button className="cart-btn" onTouchEnd={this.toggle} style={cartBtnStyle}>{this.state.amount}</button>
-				<Cart ref="cart_panel" 
-					CartItemAmountChanged={this.CartItemAmountChanged}>
-				</Cart>
-				<div className='container-fluid beLevel'>
-					<div>
-						<div className="cartContainer">
-						</div>
-					</div>
-					<div className="blockfy">
-						<div>
-							<div>￥<large>{this.state.price}</large></div>
-							<div>运费：{this.state.transportCost}&nbsp;&nbsp;两杯起送</div>
-						</div>
-					</div>
-					<div className="floatToRight">
-						<ModuleButton neededStyle="btn footer-btn" neededContent="去结算" onClick={this.toSumUp}></ModuleButton>
-					</div>
-				</div>
+			<footer className="main-footer">
+				{this.renderCartLayer()}
+				{this.renderFooterInfoLayer()}
+				{this.renderCartIconLayer()}
 			</footer>);
 	},
-	componentDidMount: function(){
-		var footer = ReactDOM.findDOMNode(this);
-
-		var fackCart = footer.lastChild.firstChild.firstChild;	
-		fackCart.style.height = (footer.offsetHeight-10) + "px";
-
-		var blockfy = footer.lastChild.firstChild.nextSibling.firstChild;			
-		blockfy.style.marginTop = ((footer.offsetHeight-10) - blockfy.offsetHeight) / 2 + "px";
-
-		var button = footer.lastChild.lastChild;			
-		button.style.marginTop = ((footer.offsetHeight-10) - button.offsetHeight) / 2 + "px";
-	},
-	CartItemAmountChanged: function(newState){
-		if (newState.cartBtnTransport) {
-			newState.cartBtnTransport = this.state.cartBtnTransport + newState.cartBtnTransport;
-		};
-		this.setState(newState);
-	},
-	toSumUp: function(event){
-		console.log("toSumUp");
-	},
-	passToCart: function(paCKage){
-		console.log(paCKage.getItem());
-		var rslt = this.refs.cart_panel.unZipPackage(paCKage);
-		console.log(rslt);
-		this.setState(rslt);
-	},
-	closeCart: function(){
-		this.refs.cart_panel.toggle();
-	},
-	checkItemInBasket: function(item){
-		return this.refs.cart_panel.checkItemInBasket(item);
-	},
 	toggle: function(event){
-		event.stopPropagation();
-		this.toggleHandler();
+		this.props.toggle(event);
 	},
-	toggleHandler: function(){
-		this.refs.cart_panel.toggle();
-		var height = -ReactDOM.findDOMNode(this.refs.cart_panel).offsetHeight;
-		console.log(height);
-		if (this.state.cartBtnTransport == 0) {
-			this.setState({
-				cartBtnTransport: height,
-				overflow: "visible"
-			});
-			
-			console.log(typeof this.props.toggleCover);
-			this.props.toggleCover({
-				shadowZindex: 5,
-				shadowVisible: true
-			})
-		}else{
-			this.setState({
-				cartBtnTransport: 0,
-			});
-			setTimeout(function(){
-				this.setState({
-					overflow: "hidden"
-				});
-			}.bind(this), 400)
-			this.props.toggleCover({
-				shadowZindex: -1,
-				shadowVisible: false
-			})
-		}
+	amountOnChanged: function(message){
+		this.props.amountOnChanged(message);
+	},
+	clearAll: function(){
+		console.log("clearAll");
+		this.props.clearAll();
 	}
 });
 

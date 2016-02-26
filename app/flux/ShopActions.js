@@ -16,6 +16,13 @@ var ShopActions = {
     });
   },
 
+  requestIcon: function(req){
+     Dispatcher.dispatch({
+      actionType: ShopConstants.REQUST_ICON,
+      req: req
+    });
+   },
+
   requestData: function(req){
     Dispatcher.dispatch({
       actionType: ShopConstants.REQUST_DATA,
@@ -72,6 +79,14 @@ var ShopActions = {
     Dispatcher.dispatch({
       actionType: ShopConstants.ALTER_CART_ITEM,
       operations: operations
+    })
+  }, 
+
+  filterItem: function(filter){
+    console.log("dispatch filterItem");
+    Dispatcher.dispatch({
+      actionType: ShopConstants.FILTER_ITEM,
+      filter: filter
     })
   }
 }

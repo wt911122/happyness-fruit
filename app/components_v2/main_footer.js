@@ -49,7 +49,10 @@ var MainFooter = React.createClass({
 	renderCartLayer: function(){
 		return (<div ref="cart" className="layer Lst cart-panel" style={this.animationStyle}>
 					<div className="cart-head">
-
+						<ModuleButton 
+							outterStyle="swapAll-btn" 
+							innerStyle="" 
+							innerContent="清空" onClick={this.clearAll}/>
 					</div>
 					<div className="cart-body">
 						<ul>

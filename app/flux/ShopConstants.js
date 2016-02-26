@@ -8,8 +8,10 @@ module.exports = {
 	ALTER_CART_ITEM: "alter_cart_item",
 	CLOSE_SHADOW: "close_shadow",
 	SHADOW_ON_CLOSE: "shadow_on_close",
+	FILTER_ITEM: "filter_item",
 
 	/* 异步获取action */
  	REQUST_AD: "requst_ad",	
- 	REQUST_DATA: "requst_data"
+ 	REQUST_DATA: "requst_data",
+ 	REQUST_ICON: "requst_icon"
 }

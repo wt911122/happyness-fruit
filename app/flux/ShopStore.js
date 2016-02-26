@@ -66,6 +66,23 @@ ShopStore.prototype.requstData = function(req){
      ajax.get(req.url, req.args, this.emitDataReady.bind(this));
 }
 // ----------------------------------------------------------------
+// ------------------------request icon data----------------------------
+var ICON_DATA_READY_EVENT = "IconDataReadyEvent";
+ShopStore.prototype.emitIconDataReady = function(data) {
+    this.emitter.emit(ICON_DATA_READY_EVENT, data);
+};
+
+ShopStore.prototype.addIconDataReadyListener = function(callback) {
+    this.emitter.on(ICON_DATA_READY_EVENT, callback);
+};
+
+ShopStore.prototype.removeIconDataReadyListener = function(callback) {
+    this.emitter.removeListener(ICON_DATA_READY_EVENT, callback);
+};
+ShopStore.prototype.requstIconData = function(req){
+     ajax.get(req.url, req.args, this.emitIconDataReady.bind(this));
+}
+// ----------------------------------------------------------------
 
 // ------------- toggle sidebar -----------------
 var TOGGLE_SIDEBAR_EVENT = "SideBarToggleEvent";
@@ -202,6 +219,25 @@ ShopStore.prototype.removeCartItemAlteredListener = function(callback) {
 
 ShopStore.prototype.alterCartItem = function(operation){
     this.emitCartItemAltered(operation);
+}
+// ----------------------------------------------------------
+
+// ------------- mitCartItem -----------------
+var FILTER_ITEM_EVENT = "filterItemEvent";
+ShopStore.prototype.emitFilterItem= function(filter) {
+    this.emitter.emit(FILTER_ITEM_EVENT, filter);
+};
+
+ShopStore.prototype.addFilterItemListener = function(callback) {
+    this.emitter.on(FILTER_ITEM_EVENT, callback);
+};
+
+ShopStore.prototype.removeFilterItemListener = function(callback) {
+    this.emitter.removeListener(FILTER_ITEM_EVENT, callback);
+};
+
+ShopStore.prototype.filterItem = function(filter){
+    this.emitFilterItem(filter);
 }
 // ----------------------------------------------------------
 

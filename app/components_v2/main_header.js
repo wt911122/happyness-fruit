@@ -34,7 +34,7 @@ var MainHeader = React.createClass({
 				</div>
 				<div className='navbar'>
 					<ModuleButton outterStyle="btn bar-btn toSideBtn" innerStyle="" innerContent="分类" onClick={this.callForSideBar}></ModuleButton>
-					<input type="search" className="searcher" placeholder="搜索您想找的商品" />
+					<input type="search" className="searcher" placeholder="搜索您想找的商品" onBlur={this.onBlur}/>
 					<ModuleButton outterStyle="btn bar-btn toHomeBtn" innerStyle="" innerContent="" onClick={this.toHome}></ModuleButton>
         		</div>
 			</header>);
@@ -49,6 +49,7 @@ var MainHeader = React.createClass({
 			ReactDOM.findDOMNode(this).classList.remove("active");
 		}
 		this.props.onADAltered(this.state.showAD);
+
 	},
 	componentDidMount: function(){
 		ShopActions.requestAD({
@@ -69,6 +70,9 @@ var MainHeader = React.createClass({
 			showAD: false
 		});
 		ShopActions.alterAD(false);
+	},
+	onBlur: function(event){
+		ShopActions.filterItem(event.target.value.trim());
 	}
 });
 

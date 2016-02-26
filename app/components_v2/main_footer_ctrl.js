@@ -230,7 +230,9 @@ var MainFooterCtrl = React.createClass({
 				}
 				
 			})
+			ShopActions.closeShadow();	
 		};
+
 	}
 });
 

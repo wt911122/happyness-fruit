@@ -22,6 +22,9 @@ Dispatcher.register(function(payload){
 		case ShopConstants.REQUST_DATA: 
 			ShopStore.requstData(payload.req);
 			break;
+		case ShopConstants.REQUST_ICON: 
+			ShopStore.requstIconData(payload.req);
+			break;
 		case ShopConstants.TOGGLE_SIDEBAR: 
 			ShopStore.toggleSideBar();
 			break;
@@ -42,6 +45,9 @@ Dispatcher.register(function(payload){
 			break;
 		case ShopConstants.SHADOW_ON_CLOSE: 
 			ShopStore.shadowOnClose();
+			break;
+		case ShopConstants.FILTER_ITEM: 
+			ShopStore.filterItem(payload.filter);
 			break;
 	}
 });

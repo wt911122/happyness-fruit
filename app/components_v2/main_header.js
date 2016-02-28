@@ -34,7 +34,9 @@ var MainHeader = React.createClass({
 				</div>
 				<div className='navbar'>
 					<ModuleButton outterStyle="btn bar-btn toSideBtn" innerStyle="" innerContent="分类" onClick={this.callForSideBar}></ModuleButton>
-					<input type="search" className="searcher" placeholder="搜索您想找的商品" onBlur={this.onBlur}/>
+					<form onSubmit={this.onBlur}>
+						<input ref="searcher" type="search" className="searcher" placeholder="搜索您想找的商品"/>
+					</form>
 					<ModuleButton outterStyle="btn bar-btn toHomeBtn" innerStyle="" innerContent="" onClick={this.toHome}></ModuleButton>
         		</div>
 			</header>);
@@ -66,13 +68,18 @@ var MainHeader = React.createClass({
 		console.log("toHome");
 	},
 	closeAD: function(){
-		this.setState({
-			showAD: false
-		});
-		ShopActions.alterAD(false);
+		this.refs.searcher.blur();
+		setTimeout(function(){
+			this.setState({
+				showAD: false
+			});
+			ShopActions.alterAD(false);
+		}.bind(this), 300);
+
 	},
 	onBlur: function(event){
-		ShopActions.filterItem(event.target.value.trim());
+		event.preventDefault();
+		ShopActions.filterItem(ReactDOM.findDOMNode(this.refs.searcher).value.trim());
 	}
 });
 

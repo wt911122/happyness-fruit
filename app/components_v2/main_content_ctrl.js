@@ -1,6 +1,7 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
 var update = require("react/lib/update");
+var Immutable = require("immutable");
 
 var ShopActions = require("../flux/ShopActions.js");
 var ShopStore = require("../flux/ShopStore.js");
@@ -23,7 +24,9 @@ var MainContentCtrl = React.createClass({
 			active: 0,
 			data: [],
 			iconData: [],
-			dataCopy: [],			
+
+			loadingStates: {},
+			invisibleStates: {},		
 		}
 	},
 	handleHeaderADReady: function(data){
@@ -46,11 +49,17 @@ var MainContentCtrl = React.createClass({
 		})
 	},
 	handleDataReady: function(data){
-		//console.log(data);
+		var count = data.map(function(obj){
+			return obj.items.length
+		}).reduce(function(prev, cur, index, array){
+			return prev + cur; 
+		});
+		console.log(data)
 		this.setState({
 			dataReady: true,
 			data: data,
-			dataCopy: data,
+			loadingStates: Immutable.List(Immutable.Repeat(false, count)).map(function(element, i){if (i < 5) {return true;}else{return false;}}),
+			invisibleStates: Immutable.List(Immutable.Repeat(false, count)),
 			active: data[0].id
 		});
 	},
@@ -78,12 +87,35 @@ var MainContentCtrl = React.createClass({
 	},
 	handleItemFilter: function(filter){
 		if (filter === "") {
-			this.setState({
-				filtered: false,
-				data: this.state.dataCopy
+			this.setState(function (preState){
+				var newinvisibleStates = preState.invisibleStates.map(function(element){
+					return false;
+				});
+				return{
+					invisibleStates: newinvisibleStates
+				}
 			})
 		}else{
-			var data = this.state.dataCopy.map(function(dataItem){
+			var counter = 0;
+			this.setState(function (preState){
+				var newinvisibleStates = preState.invisibleStates;
+				this.state.data.forEach(function(dataItem, idx){
+					dataItem.items.map(function(item){
+						if (item.title.indexOf(filter) > -1) {
+							newinvisibleStates = newinvisibleStates.set(counter, false);
+						}else{
+							newinvisibleStates = newinvisibleStates.set(counter, true);
+						}
+						counter ++;
+					});
+				});
+				console.log(newinvisibleStates.toArray());
+				return {
+					invisibleStates: newinvisibleStates
+				}
+			}.bind(this));
+			
+			/*var data = this.state.dataCopy.map(function(dataItem){
 				var obj = {};
 				for(prop in dataItem){
 					if (dataItem.hasOwnProperty(prop) && prop !== "items" ) {
@@ -98,7 +130,7 @@ var MainContentCtrl = React.createClass({
 			this.setState({
 				filtered: true,
 				data: data
-			})
+			})*/
 		}
 	},
 	componentDidMount: function() {
@@ -108,14 +140,16 @@ var MainContentCtrl = React.createClass({
 		ShopStore.addADAlterdListener(this.handleADAlterd);
 		ShopStore.addSideBarToggleListener(this.handleSideBarToggle);
 		ShopStore.addFilterItemListener(this.handleItemFilter);
+		
 	},
 	shouldComponentUpdate: function(nextProps, nextState){
 		return (nextState.translateX !== this.state.translateX)       || 
 			   (nextState.translateY !== this.state.translateY)       ||
 			   (nextState.dataReady !== this.state.dataReady)         ||   
 			   (nextState.iconDataReady !== this.state.iconDataReady) ||  
-			   (nextState.data !== this.state.data)                   ||
-			   (nextState.active !== this.state.active)       
+			   (nextState.active !== this.state.active)               ||
+			   (nextState.loadingStates !== this.state.loadingStates) ||
+			   (nextState.invisibleStates !== this.state.invisibleStates) 		
 	},
 	updateStyles: function(){
 		this.translate = {	
@@ -141,6 +175,7 @@ var MainContentCtrl = React.createClass({
 					</div>)
 		};
 		this.updateStyles();
+
 		return (<div className="main-content">
 					<SideNav 
 						outterStyle={update(this.sideHeight,{$merge:this.translate})}
@@ -152,10 +187,13 @@ var MainContentCtrl = React.createClass({
 						iconData={this.state.iconData}/>
 					<MainContent 
 						outterStyle={update(update(this.contentHeight,{$merge:this.translate}), {$merge: this.listWidth})}
-						data={this.state.data} 
+						data={this.state.data}
+						loadingStates={this.state.loadingStates} 
+						invisibleStates={this.state.invisibleStates}
 						active={this.state.active}
 						activeChanged={this.activeChanged}
-						filtered={this.state.filtered}/>
+						filtered={this.state.filtered}
+						requestLoadingIMG={this.prepareLoadingIMG}/>
 				</div>);
 	},
 	componentWillUnmount: function() {
@@ -169,6 +207,20 @@ var MainContentCtrl = React.createClass({
 	activeChanged: function(id){
 		this.setState({
 			active: id
+		})
+	},
+	prepareLoadingIMG: function(idx, idxEND){
+		console.log(idx, idxEND);
+		this.setState(function (preState){
+			var newloadingStates = preState.loadingStates.map(function(element, i){
+				if (i >= idx && i <= idxEND) return true;
+				return element
+			})
+			
+			//console.log(newloadingStates.toArray());
+			return {
+				loadingStates: newloadingStates
+			}
 		})
 	}
 });

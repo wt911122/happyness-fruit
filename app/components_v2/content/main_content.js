@@ -8,12 +8,35 @@ var ModuleButton = require("../module_button.js");
 var Product = React.createClass({
 	propTypes: {
 		item: React.PropTypes.object,
-		loadingImg: React.PropTypes.bool
+		loadingImg: React.PropTypes.bool,
+		invisible: React.PropTypes.bool
+	},
+	getInitialState: function(){
+		return {
+			loadingImg: this.props.loadingImg,
+			invisible: this.props.invisible,
+		}
+	},
+	componentWillReceiveProps: function(nextProps){
+		if (nextProps.loadingImg !== this.state.loadingImg) {
+			this.setState({
+				loadingImg: nextProps.loadingImg
+			})
+		};
+		if (nextProps.invisible !== this.state.invisible) {
+			this.setState({
+				invisible: nextProps.invisible
+			})
+		};
 	},
 	render: function(){
 		var item = this.props.item;
-		return (<li className="productItem" onTouchEnd={this.onTouched} onTouchStart={this.onTouchStart}>
-					<div className="imgBlock"><img className="reactImg" src={"app/style/images/Loading.png"} alt={this.props.item.imgURL} /></div>
+		//console.log(this.state.loadingImg, item.imgURL)
+		var src = this.state.loadingImg ? item.imgURL+"" : "app/style/images/Loading.png";
+		var style = {display: this.state.invisible?"none":"block"};
+		//console.log(src)
+		return (<li className="productItem" style={style} onTouchEnd={this.onTouched} onTouchStart={this.onTouchStart}>
+					<div className="imgBlock"><img className="reactImg" src={src} /></div>
 					<div className="description">
 						<h1>{item.title}</h1>
 						<h2>{item.subTitle}</h2>
@@ -52,7 +75,9 @@ var MainContent = React.createClass({
 		outterStyle: React.PropTypes.object,
 		data: React.PropTypes.array,
 		filtered: React.PropTypes.bool,
-		active: React.PropTypes.number
+		active: React.PropTypes.number,
+		loadingStates: React.PropTypes.object,
+		invisibleStates: React.PropTypes.object
 	},
 	marks:[],
 	getDefaultProps: function() {
@@ -70,7 +95,9 @@ var MainContent = React.createClass({
 			outterStyle: this.props.outterStyle,
 			active: this.props.active,
 			data: this.props.data,
-			filtered: this.props.filtered
+			filtered: this.props.filtered,
+			loadingStates: this.props.loadingStates,
+			invisibleStates: this.props.invisibleStates
 		}
 	},
 	componentWillReceiveProps: function(nextProps){
@@ -89,20 +116,25 @@ var MainContent = React.createClass({
 			ReactDOM.findDOMNode(this).querySelector("ul > li:nth-child("+this.findLiCount(nextProps.active)+")").scrollIntoView();
 			this.scroll = true;
 		};
-		if (nextProps.data !== this.state.data) {
+		if (nextProps.loadingStates !== this.state.loadingStates) {
+			this.setState({
+				loadingStates: nextProps.loadingStates
+			})
+		}
+		if (nextProps.invisibleStates !== this.state.invisibleStates) {
+			this.setState({
+				invisibleStates: nextProps.invisibleStates
+			})
+		}
+		/*if (nextProps.data !== this.state.data) {
 			console.log(nextProps.data);
 			var node = this.node = ReactDOM.findDOMNode(this);
-			if (nextProps.filtered == true) {
-				console.log("listener removed");
-				node.removeEventListener("scroll", this.scrollHandler);
-			}else{
-				node.addEventListener("scroll", this.scrollHandler);
-			}
+			
 			this.setState({
 				filtered: nextProps.filtered,
 				data: nextProps.data
 			})
-		}
+		}*/
 	},
 	findLiCount: function(active){
 		for (var i = this.marks.length - 1; i >= 0; i--) {
@@ -111,18 +143,25 @@ var MainContent = React.createClass({
 		};
 	},
 	renderProduct: function(){
-		var count=0;
+		var count=0, index, counter=-1;
 		var self = this;
-		self.marks = [];
-		return this.state.data.map(function(obj){
-			self.marks.push({
-				obj: obj.id,
-				count: count
-			});
-			console.log(count);
-			count += obj.items.length
-			return obj.items.map(function(item){
-				return <Product key={item.id} item={item} />
+		var loadingStates = this.state.loadingStates;
+		var invisibleStates = this.state.invisibleStates;
+		//self.marks = [];
+		console.log(this.state.data);
+		return this.state.data.map(function(obj, i){
+			if (!self.marked ) {
+				console.log("marks")
+				self.marks.push({
+					obj: obj.id,
+					count: count
+				});
+				count += obj.items.length
+			};
+			
+			return obj.items.map(function(item, j){
+				counter++;
+				return <Product key={item.id} item={item} loadingImg={!!loadingStates.get(counter)} invisible={!!invisibleStates.get(counter)}/>
 			})
 		})
 	},
@@ -138,18 +177,14 @@ var MainContent = React.createClass({
 	shouldComponentUpdate: function(nextProps, nextState){
 		return nextState.active !== this.state.active ||
 			   nextState.outterStyle.transform !== this.state.outterStyle.transform || 
-			   nextState.data !== this.state.data;
+			   nextState.loadingStates !== this.state.loadingStates ||
+			   nextState.invisibleStates !== this.state.invisibleStates;
 	},
 	componentDidMount: function(){
 		var node = this.node = ReactDOM.findDOMNode(this);
 		var childSample = node.querySelector("ul > li:nth-child(1)");
 		this.listHeight = childSample.offsetHeight;
-		var idx = 0, idxEnd = 5;
-		while(idx !== idxEnd){
-			var img = node.querySelector("ul > li:nth-child("+(idx+1)+") > .imgBlock > img");
-			if (img.src !== img.alt) img.src = img.alt;
-			idx++;
-		}
+		this.marked = true;
 		node.addEventListener("scroll", this.scrollHandler);
 	},
 	scrollHandler: function(){
@@ -169,12 +204,7 @@ var MainContent = React.createClass({
 			var listHeight = this.listHeight;
 			var idx = Math.floor(node.scrollTop / listHeight);
 			var idxEnd = Math.floor((node.scrollTop + node.offsetHeight) / listHeight);
-
-			while(idx !== idxEnd){
-				var img = node.querySelector("ul > li:nth-child("+(idx+1)+") > .imgBlock > img");
-				if (img.src !== img.alt) img.src = img.alt;
-				idx++;
-			}
+			this.props.requestLoadingIMG(idx, idxEnd);
 
 		}.bind(this), 300);
 	}

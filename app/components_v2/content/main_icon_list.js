@@ -1,5 +1,34 @@
 var React = require("react");
 var ReactDOM = require("react-dom");
+var ShopActions = require("../../flux/ShopActions.js");
+
+var Icon = React.createClass({
+	propTypes: {
+		style: React.PropTypes.object, 
+		item: React.PropTypes.object
+	},
+	render: function(){
+		var item = this.props.item;
+		return (
+			<li>
+				<button className="fruit-icon" style={this.props.style} onTouchStart={this.onTouchStart} onTouchEnd={this.onTouched}>{item.name}</button>
+			</li>)
+	},
+	onTouchStart: function(e){
+		event.stopPropagation();
+		event.preventDefault();
+		this.touchY = e.touches[0].clientY;
+	},
+	onTouched: function(e){
+		event.stopPropagation();
+		event.preventDefault();
+		var deltaY = e.changedTouches[0].clientY - this.touchY;
+		if (Math.abs(deltaY == 0)) {
+			ShopActions.filterItem(this.props.item.name);
+		};
+		
+	}
+})
 
 var MainIconList = React.createClass({
 	propTypes: {
@@ -35,10 +64,7 @@ var MainIconList = React.createClass({
 				color: item.color,
 				backgroundColor: item.backgroundColor
 			}
-			return (
-				<li key={"fruitType-" + item.id}>
-					<button className="fruit-icon" style={style}>{item.name}</button>
-				</li>)
+			return <Icon key={"fruitType-" + item.id} style={style} item={item}/>
 		}.bind(this));
 	},
 	render: function(){

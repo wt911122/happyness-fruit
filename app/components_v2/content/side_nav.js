@@ -18,10 +18,10 @@ var Item = React.createClass({
 		};
 	},
 	render: function(){
+		var active = this.state.active;
 		var style = {
-			backgroundImage:"url("+this.props.item.imgURL+")",
-			backgroundPosition: (this.state.active? this.props.item.active: this.props.item.normal),
-			borderBottomColor: (this.state.active?"#da1028":"#b5b5b6")
+			backgroundImage:"url(" + (active ? this.props.item.activeImgURL : this.props.item.imgURL)+")",
+			borderBottomColor: (active?"#da1028":"#b5b5b6")
 		}
 		return (<li onTouchEnd={this.onTouched} onTouchStart={this.onTouchStart}>
 					<div className="image" style={style}></div>

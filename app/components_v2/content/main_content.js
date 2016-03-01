@@ -148,7 +148,7 @@ var MainContent = React.createClass({
 		var loadingStates = this.state.loadingStates;
 		var invisibleStates = this.state.invisibleStates;
 		//self.marks = [];
-		console.log(this.state.data);
+		//console.log(this.state.data);
 		return this.state.data.map(function(obj, i){
 			if (!self.marked ) {
 				console.log("marks")
@@ -184,6 +184,7 @@ var MainContent = React.createClass({
 		var node = this.node = ReactDOM.findDOMNode(this);
 		var childSample = node.querySelector("ul > li:nth-child(1)");
 		this.listHeight = childSample.offsetHeight;
+		console.log("listheight:", this.listHeight);
 		this.marked = true;
 		node.addEventListener("scroll", this.scrollHandler);
 	},
@@ -201,10 +202,25 @@ var MainContent = React.createClass({
 		};
 		clearTimeout(this.timeoutFunc);
 		this.timeoutFunc = setTimeout(function(){
-			var listHeight = this.listHeight;
+			/*var listHeight = this.listHeight;
 			var idx = Math.floor(node.scrollTop / listHeight);
 			var idxEnd = Math.floor((node.scrollTop + node.offsetHeight) / listHeight);
-			this.props.requestLoadingIMG(idx, idxEnd);
+			this.props.requestLoadingIMG(idx, idxEnd);*/
+			var idxArr = [], counter = 0;
+			var filter = function(node){
+				return node.tagName.toLowerCase() == "li" ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_SKIP;
+			};
+			var walker = document.createTreeWalker(this.node, NodeFilter.SHOW_ELEMENT, filter, false);
+			var node = walker.nextNode(); 
+			while (node !== null) {
+				var top = node.getBoundingClientRect().top -34;
+				if (top > 0 && top <= this.node.offsetHeight) {
+					idxArr.push(counter);
+				};
+				node = walker.nextNode(); 
+				counter++;
+			}
+			this.props.requestLoadingIMG(idxArr);
 
 		}.bind(this), 300);
 	}

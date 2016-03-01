@@ -40,7 +40,7 @@ var MainContentCtrl = React.createClass({
 		};
 
 		ShopActions.requestData({
-			url: "app/mock_data.json",
+			url: "app/mock_data2.json",
 			args: ""
 		});
 		ShopActions.requestIcon({
@@ -54,7 +54,7 @@ var MainContentCtrl = React.createClass({
 		}).reduce(function(prev, cur, index, array){
 			return prev + cur; 
 		});
-		console.log(data)
+		console.log(count)
 		this.setState({
 			dataReady: true,
 			data: data,
@@ -73,7 +73,8 @@ var MainContentCtrl = React.createClass({
 		if (!data.state) {
 			this.setState({
 				translateY: 0,
-				contentHeight: document.documentElement.offsetHeight - 116
+				contentHeight: document.documentElement.offsetHeight - 116,
+				sideHeight: document.documentElement.offsetHeight - 80,
 			})
 		};
 	},
@@ -97,21 +98,31 @@ var MainContentCtrl = React.createClass({
 			})
 		}else{
 			var counter = 0;
+			var trueCounter = 0;
 			this.setState(function (preState){
 				var newinvisibleStates = preState.invisibleStates;
+				var newloadingStates = preState.loadingStates;
 				this.state.data.forEach(function(dataItem, idx){
 					dataItem.items.map(function(item){
 						if (item.title.indexOf(filter) > -1) {
 							newinvisibleStates = newinvisibleStates.set(counter, false);
+							if (trueCounter< 6) {
+								console.log(counter);
+								newloadingStates = newloadingStates.set(counter, true);
+							};
+							trueCounter++;
 						}else{
 							newinvisibleStates = newinvisibleStates.set(counter, true);
+
 						}
 						counter ++;
 					});
 				});
 				console.log(newinvisibleStates.toArray());
+				console.log(newloadingStates.toArray());
 				return {
-					invisibleStates: newinvisibleStates
+					invisibleStates: newinvisibleStates,
+					loadingStates: newloadingStates
 				}
 			}.bind(this));
 			
@@ -209,11 +220,11 @@ var MainContentCtrl = React.createClass({
 			active: id
 		})
 	},
-	prepareLoadingIMG: function(idx, idxEND){
-		console.log(idx, idxEND);
+	prepareLoadingIMG: function(idxArr){
+		//console.log(idx, idxEND);
 		this.setState(function (preState){
 			var newloadingStates = preState.loadingStates.map(function(element, i){
-				if (i >= idx && i <= idxEND) return true;
+				if (idxArr.some(function(idx){return i == idx})) return true;
 				return element
 			})
 			

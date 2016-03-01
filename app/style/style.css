@@ -481,6 +481,8 @@ body{
 	width: 105px;
 	height: 105px;
 	background-repeat: no-repeat;
+	background-size: 105px auto;
+	background-position: center center;
 	border-bottom: 2px solid #b5b5b6;
 }
 .main-content > .main-product-list{

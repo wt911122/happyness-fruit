@@ -239,6 +239,11 @@ body{
     height: 30px;
     margin-top: 5px;
 }
+@media screen and (min-device-width: 250px){
+	.navbar input.searcher{
+		width: 8em;
+	}
+}
 @media screen and (min-device-width: 270px){
 	.navbar input.searcher{
 		width: 10em;

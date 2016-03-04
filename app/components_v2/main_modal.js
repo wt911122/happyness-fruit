@@ -82,6 +82,7 @@ var MainModal = React.createClass({
 		var node = ReactDOM.findDOMNode(this);
 		var translateX = (document.documentElement.offsetWidth - node.offsetWidth ) / 2;
 		var translateY = (document.documentElement.offsetHeight - node.offsetHeight ) / 2;
+		translateY = translateY > 0 ? translateY: 30; 
 		node.style.WebkitTransform = "translateY("+translateY + "px)" + " translateX("+translateX + "px)";
 		node.style.transform = "translateY("+translateY + "px)" + " translateX("+translateX + "px)";
 	},
